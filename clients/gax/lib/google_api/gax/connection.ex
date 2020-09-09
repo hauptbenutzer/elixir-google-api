@@ -33,6 +33,10 @@ defmodule GoogleApi.Gax.Connection do
         )
       )
 
+      if Application.get_env(unquote(Keyword.get(opts, :otp_app)), :enable_telemetry, false) do
+        plug(Tesla.Middleware.Telemetry)
+      end
+
       plug(Tesla.Middleware.DecompressResponse, [])
 
       plug(Tesla.Middleware.EncodeJson, engine: Poison)
